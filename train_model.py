@@ -8,15 +8,11 @@ from peft import LoraConfig, TaskType
 from peft import AutoPeftModelForCausalLM
 from trl import SFTTrainer, DataCollatorForCompletionOnlyLM
 from datasets import load_dataset
-from accelerate.logging import get_logger
-from accelerate import Accelerator
 
 import torch
 import gdown
 import os
 
-accelerator = Accelerator()
-logger = get_logger(__name__)
 
 # Arguments
 @dataclass
@@ -94,11 +90,11 @@ class TrainingArgs:
     )
     per_device_train_batch_size: int = field(
         metadata={"help": "The batch size per GPU for training."},
-        default=4,
+        default=1,
     )
     gradient_accumulation_steps: int = field(
         metadata={"help": "The number of gradient accumulation steps."},
-        default=8,
+        default=32,
     )
     gradient_checkpointing: bool = field(
         metadata={"help": "Wether to use gradient checkpointing."},
@@ -269,7 +265,7 @@ def training_function(script_args:ScriptArgs, training_args:TrainingArgs):
         download_dataset(script_args)
     dataset = load_dataset('csv', data_files=data_files)
 
-    logger.info(f"Dataset loaded: {dataset} with columns {dataset['train'].features}")
+    print(f"Dataset loaded: {dataset} with columns {dataset['train'].features}")
 
     model, tokenizer = create_and_prepare_model(script_args, training_args)
 
