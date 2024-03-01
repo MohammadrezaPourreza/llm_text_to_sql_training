@@ -193,20 +193,36 @@ def create_and_prepare_model(script_args:ScriptArgs, training_args:TrainingArgs)
             bnb_4bit_quant_type='nf4',
             bnb_4bit_use_double_quant = True
         )
-        model = AutoModelForCausalLM.from_pretrained(
-            script_args.model_id,
-            use_cache=not training_args.gradient_checkpointing,
-            bnb_config=bnb_config,
-            attn_implementation="flash_attention_2" if script_args.use_flash_attn else None,
-            device_map='auto',
-        )
+        if script_args.use_flash_attn:
+            model = AutoModelForCausalLM.from_pretrained(
+                script_args.model_id,
+                use_cache=not training_args.gradient_checkpointing,
+                bnb_config=bnb_config,
+                attn_implementation="flash_attention_2",
+                device_map='auto',
+            )
+        else:
+            model = AutoModelForCausalLM.from_pretrained(
+                script_args.model_id,
+                use_cache=not training_args.gradient_checkpointing,
+                bnb_config=bnb_config,
+                device_map='auto',
+            )
     else:
-        model = AutoModelForCausalLM.from_pretrained(
-            script_args.model_id,
-            use_cache=not training_args.gradient_checkpointing,
-            attn_implementation="flash_attention_2" if script_args.use_flash_attn else None,
-            torch_dtype = torch.bfloat16,
-        )
+        if script_args.use_flash_attn:
+            model = AutoModelForCausalLM.from_pretrained(
+                script_args.model_id,
+                use_cache=not training_args.gradient_checkpointing,
+                attn_implementation="flash_attention_2",
+                device_map='auto',
+            )
+        else:
+            model = AutoModelForCausalLM.from_pretrained(
+                script_args.model_id,
+                use_cache=not training_args.gradient_checkpointing,
+                torch_dtype = torch.bfloat16,
+                device_map='auto',
+            )
     model.config.use_cache = False
     print("model loaded")
 
@@ -233,7 +249,6 @@ def set_training_args(training_args:TrainingArgs):
         save_steps=training_args.save_steps,
         logging_steps=training_args.logging_steps,
         save_total_limit=training_args.save_total_limit,
-        max_seq_length=training_args.max_seq_length,
         deepspeed=training_args.deepspeed,
     )
 
