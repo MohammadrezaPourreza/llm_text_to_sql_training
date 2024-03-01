@@ -198,30 +198,26 @@ def create_and_prepare_model(script_args:ScriptArgs, training_args:TrainingArgs)
                 script_args.model_id,
                 use_cache=not training_args.gradient_checkpointing,
                 quantization_config=bnb_config,
-                attn_implementation="flash_attention_2",
-                device_map='auto',
+                attn_implementation="flash_attention_2"
             )
         else:
             model = AutoModelForCausalLM.from_pretrained(
                 script_args.model_id,
                 use_cache=not training_args.gradient_checkpointing,
                 quantization_config=bnb_config,
-                device_map='auto',
             )
     else:
         if script_args.use_flash_attn:
             model = AutoModelForCausalLM.from_pretrained(
                 script_args.model_id,
                 use_cache=not training_args.gradient_checkpointing,
-                attn_implementation="flash_attention_2",
-                device_map='auto',
+                attn_implementation="flash_attention_2"
             )
         else:
             model = AutoModelForCausalLM.from_pretrained(
                 script_args.model_id,
                 use_cache=not training_args.gradient_checkpointing,
-                torch_dtype = torch.bfloat16,
-                device_map='auto',
+                torch_dtype = torch.bfloat16
             )
     model.config.use_cache = False
     print("model loaded")
