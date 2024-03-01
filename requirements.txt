@@ -59,4 +59,4 @@ tzdata==2024.1
 urllib3==2.2.1
 xxhash==3.4.1
 yarl==1.9.4
-down==5.1.0
+gdown==5.1.0
