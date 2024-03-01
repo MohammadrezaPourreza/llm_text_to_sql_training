@@ -265,6 +265,8 @@ def training_function(script_args:ScriptArgs, training_args:TrainingArgs):
         download_dataset(script_args)
     dataset = load_dataset('csv', data_files=data_files)
 
+    logger.info(f"Dataset loaded: {dataset} with columns {dataset['train'].features}")
+
     model, tokenizer = create_and_prepare_model(script_args, training_args)
 
     def formatting_prompts_func(training_dataset):
