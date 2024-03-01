@@ -197,7 +197,7 @@ def create_and_prepare_model(script_args:ScriptArgs, training_args:TrainingArgs)
             model = AutoModelForCausalLM.from_pretrained(
                 script_args.model_id,
                 use_cache=not training_args.gradient_checkpointing,
-                bnb_config=bnb_config,
+                quantization_config=bnb_config,
                 attn_implementation="flash_attention_2",
                 device_map='auto',
             )
@@ -205,7 +205,7 @@ def create_and_prepare_model(script_args:ScriptArgs, training_args:TrainingArgs)
             model = AutoModelForCausalLM.from_pretrained(
                 script_args.model_id,
                 use_cache=not training_args.gradient_checkpointing,
-                bnb_config=bnb_config,
+                quantization_config=bnb_config,
                 device_map='auto',
             )
     else:
