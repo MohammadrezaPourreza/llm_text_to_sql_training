@@ -27,7 +27,7 @@ class ScriptArgs:
     dataset_path: Optional[str] = field(
         metadata={"help": "The path or URI of the dataset to use."},
     )
-    file_id: str = field(
+    file_id: Optional[str] = field(
         metadata={"help": "The dataset file id of the dataset in google drive."},
     )
     lora_alpha: Optional[int] = field(default=128)
@@ -221,7 +221,7 @@ def training_function(script_args:ScriptArgs, training_args:TrainingArgs):
         download_dataset(script_args)
     dataset = load_dataset('csv', data_files=data_files)
 
-    model, tokenizer = create_and_prepare_model(script_args.model_id,training_args, script_args)
+    model, tokenizer = create_and_prepare_model(script_args, training_args)
 
     def formatting_prompts_func(training_dataset):
         output_texts = []
