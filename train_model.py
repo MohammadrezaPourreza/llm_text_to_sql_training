@@ -34,7 +34,7 @@ class ScriptArgs:
     lora_dropout: Optional[float] = field(default=0.1)
     lora_r: Optional[int] = field(default=128)
     use_flash_attn: Optional[bool] = field(
-        default=False,
+        default=True,
         metadata={"help": "Enables Flash attention for training."},
     )
     merge_adapters: bool = field(
