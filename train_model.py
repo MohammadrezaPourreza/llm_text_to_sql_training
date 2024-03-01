@@ -349,8 +349,8 @@ Question: {question}
                 )
                 tokenizer.save_pretrained(training_args.output_dir)
             if script_args.upload_to_hub:
-                model.push_to_hub(training_args.output_dir, use_temp_dir=True)
-                tokenizer.push_to_hub(training_args.output_dir, use_temp_dir=True)
+                model.push_to_hub(training_args.output_dir)
+                tokenizer.push_to_hub(training_args.output_dir)
                 
         else:
             if script_args.save_model:
@@ -359,8 +359,8 @@ Question: {question}
                 )
                 tokenizer.save_pretrained(training_args.output_dir)
             if script_args.upload_to_hub:
-                trainer.model.push_to_hub(training_args.output_dir, use_temp_dir=True)
-                tokenizer.push_to_hub(training_args.output_dir, use_temp_dir=True)
+                trainer.model.push_to_hub(training_args.output_dir)
+                tokenizer.push_to_hub(training_args.output_dir)
 
 
 def main():
