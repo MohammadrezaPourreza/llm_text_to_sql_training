@@ -30,9 +30,9 @@ class ScriptArgs:
     file_id: Optional[str] = field(
         metadata={"help": "The dataset file id of the dataset in google drive."},
     )
-    lora_alpha: Optional[int] = field(default=128)
+    lora_alpha: Optional[int] = field(default=256)
     lora_dropout: Optional[float] = field(default=0.1)
-    lora_r: Optional[int] = field(default=256)
+    lora_r: Optional[int] = field(default=128)
     use_flash_attn: Optional[bool] = field(
         default=True,
         metadata={"help": "Enables Flash attention for training."},
