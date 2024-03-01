@@ -196,15 +196,15 @@ def create_and_prepare_model(script_args:ScriptArgs, training_args:TrainingArgs)
         model = AutoModelForCausalLM.from_pretrained(
             script_args.model_id,
             use_cache=not training_args.gradient_checkpointing,
-            use_flash_attention_2=script_args.use_flash_attn,
             bnb_config=bnb_config,
+            attn_implementation="flash_attention_2" if script_args.use_flash_attn else None,
             device_map='auto',
         )
     else:
         model = AutoModelForCausalLM.from_pretrained(
             script_args.model_id,
             use_cache=not training_args.gradient_checkpointing,
-            use_flash_attention_2=script_args.use_flash_attn,
+            attn_implementation="flash_attention_2" if script_args.use_flash_attn else None,
             torch_dtype = torch.bfloat16,
         )
     model.config.use_cache = False
@@ -216,6 +216,26 @@ def create_and_prepare_model(script_args:ScriptArgs, training_args:TrainingArgs)
     tokenizer.padding_side = "right"
         
     return model, tokenizer
+
+def set_training_args(training_args:TrainingArgs):
+    return TrainingArguments(
+        output_dir=training_args.output_dir,
+        overwrite_output_dir=training_args.overwrite_output_dir,
+        num_train_epochs=training_args.num_train_epochs,
+        per_device_train_batch_size=training_args.per_device_train_batch_size,
+        gradient_accumulation_steps=training_args.gradient_accumulation_steps,
+        gradient_checkpointing=training_args.gradient_checkpointing,
+        learning_rate=training_args.learning_rate,
+        weight_decay=training_args.weight_decay,
+        lr_scheduler_type=training_args.lr_scheduler_type,
+        max_grad_norm=training_args.max_grad_norm,
+        group_by_length=training_args.group_by_length,
+        save_steps=training_args.save_steps,
+        logging_steps=training_args.logging_steps,
+        save_total_limit=training_args.save_total_limit,
+        max_seq_length=training_args.max_seq_length,
+        deepspeed=training_args.deepspeed,
+    )
 
 # ------------------------------------------
     
@@ -272,7 +292,7 @@ Question: {question}
     trainer = SFTTrainer(
         model=model,
         train_dataset=dataset['train'],
-        args=training_args,
+        args=set_training_args(training_args),
         peft_config=peft_config if script_args.use_lora else None,
         formatting_func=formatting_prompts_func,
         data_collator=collator,
