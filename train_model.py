@@ -90,7 +90,7 @@ class TrainingArgs:
     )
     tf32: bool = field(
         metadata={"help": "Wether to use tf32."},
-        default = True,
+        default = False,
     )
     per_device_train_batch_size: int = field(
         metadata={"help": "The batch size per GPU for training."},
@@ -199,7 +199,7 @@ def create_and_prepare_model(script_args:ScriptArgs, training_args:TrainingArgs)
             bnb_4bit_use_double_quant = True
         )
         if script_args.use_flash_attn:
-            logger.info("Loading model with 4bit quantization and flash attention")
+            print("Loading model with 4bit quantization and flash attention")
             model = AutoModelForCausalLM.from_pretrained(
                 script_args.model_id,
                 use_cache=not training_args.gradient_checkpointing,
@@ -207,7 +207,7 @@ def create_and_prepare_model(script_args:ScriptArgs, training_args:TrainingArgs)
                 attn_implementation="flash_attention_2"
             )
         else:
-            logger.info("Loading model with 4bit quantization and without flash attention")
+            print("Loading model with 4bit quantization and without flash attention")
             model = AutoModelForCausalLM.from_pretrained(
                 script_args.model_id,
                 use_cache=not training_args.gradient_checkpointing,
@@ -215,7 +215,7 @@ def create_and_prepare_model(script_args:ScriptArgs, training_args:TrainingArgs)
             )
     else:
         if script_args.use_flash_attn:
-            logger.info("Loading model with flash attention")
+            print("Loading model with flash attention")
             model = AutoModelForCausalLM.from_pretrained(
                 script_args.model_id,
                 use_cache=not training_args.gradient_checkpointing,
@@ -223,7 +223,7 @@ def create_and_prepare_model(script_args:ScriptArgs, training_args:TrainingArgs)
                 torch_dtype = torch.bfloat16
             )
         else:
-            logger.info("Loading model without flash attention")
+            print("Loading model without flash attention")
             model = AutoModelForCausalLM.from_pretrained(
                 script_args.model_id,
                 use_cache=not training_args.gradient_checkpointing,
