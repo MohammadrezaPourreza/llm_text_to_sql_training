@@ -247,6 +247,8 @@ def set_training_args(training_args:TrainingArgs):
         gradient_checkpointing=training_args.gradient_checkpointing,
         learning_rate=training_args.learning_rate,
         weight_decay=training_args.weight_decay,
+        bf16=training_args.bf16,
+        tf32=training_args.tf32,
         lr_scheduler_type=training_args.lr_scheduler_type,
         max_grad_norm=training_args.max_grad_norm,
         group_by_length=training_args.group_by_length,
