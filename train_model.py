@@ -198,6 +198,7 @@ def create_and_prepare_model(script_args:ScriptArgs, training_args:TrainingArgs)
             use_cache=not training_args.gradient_checkpointing,
             use_flash_attention_2=script_args.use_flash_attn,
             bnb_config=bnb_config,
+            device_map='auto',
         )
     else:
         model = AutoModelForCausalLM.from_pretrained(
