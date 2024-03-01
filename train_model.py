@@ -9,11 +9,13 @@ from peft import AutoPeftModelForCausalLM
 from trl import SFTTrainer, DataCollatorForCompletionOnlyLM
 from datasets import load_dataset
 from accelerate.logging import get_logger
+from accelerate import Accelerator
 
 import torch
 import gdown
 import os
 
+accelerator = Accelerator()
 logger = get_logger(__name__)
 
 # Arguments
