@@ -135,6 +135,10 @@ class TrainingArgs:
         metadata={"help": "The maximum sequence length."},
         default = 2048,
     )
+    deepspeed: str = field( 
+        metadata={"help": "The deepspeed config."},
+        default = "deepspeed_config.json",
+    )
 
 # ------------------------------------------
     
