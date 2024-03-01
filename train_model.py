@@ -340,8 +340,7 @@ Question: {question}
             torch.cuda.empty_cache()
             model = AutoPeftModelForCausalLM.from_pretrained(
                 training_args.output_dir,
-                low_cpu_mem_usage=True,
-                torch_dtype=torch.float16,
+                torch_dtype=torch.bfloat16,
             )  
             model = model.merge_and_unload()   
             if script_args.save_model:     
