@@ -268,8 +268,8 @@ def training_function(script_args:ScriptArgs, training_args:TrainingArgs):
         for i in range(len(training_dataset['question'])):
             question = training_dataset['question'][i]
             query = training_dataset['query'][i]
-            database_schema = training_dataset['database_schema'][i]
-            user_message = f"""Given the following SQL tables, your job is to generate the Sqlite SQL query given the user's question.
+            database_schema = training_dataset['db_schema'][i]
+            user_message = f"""Given the following SQL tables, your job is to generate a correct SQL query given the user's question.
 Put your answer inside the ```sql and ``` tags.
 {database_schema}
 ###
