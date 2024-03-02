@@ -10,6 +10,4 @@
 
 - huggingface-cli login
 
-- accelerate config
-
 - torchrun --nproc_per_node 2 train_model.py --model_id codellama/CodeLlama-7b-Instruct-hf --dataset_path finetuning_dataset.csv --file_id 1Ow9Qy4bm5KzeR98f0gTwsVR8eYP0WC9h 

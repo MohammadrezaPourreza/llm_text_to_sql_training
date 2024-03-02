@@ -50,6 +50,10 @@ class ScriptArgs:
         metadata={"help": "Wether to upload the model to the hub."},
         default=True,
     )
+    model_name_in_hub: Optional[str] = field(
+        metadata={"help": "The model name in the hub."},
+        default="MrezaPRZ/sql-model",
+    )
     load_in_4bit: bool = field(
         metadata={"help": "Wether to load the model in 4bit."},
         default = False,
@@ -349,8 +353,8 @@ Question: {question}
                 )
                 tokenizer.save_pretrained(training_args.output_dir)
             if script_args.upload_to_hub:
-                model.push_to_hub(training_args.output_dir)
-                tokenizer.push_to_hub(training_args.output_dir)
+                model.push_to_hub(script_args.model_name_in_hub)
+                tokenizer.push_to_hub(script_args.model_name_in_hub)
                 
         else:
             if script_args.save_model:
@@ -359,8 +363,8 @@ Question: {question}
                 )
                 tokenizer.save_pretrained(training_args.output_dir)
             if script_args.upload_to_hub:
-                trainer.model.push_to_hub(training_args.output_dir)
-                tokenizer.push_to_hub(training_args.output_dir)
+                trainer.model.push_to_hub(script_args.model_name_in_hub)
+                tokenizer.push_to_hub(script_args.model_name_in_hub)
 
 
 def main():
