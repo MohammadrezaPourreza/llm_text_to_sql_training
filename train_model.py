@@ -98,7 +98,7 @@ class TrainingArgs:
     )
     gradient_accumulation_steps: int = field(
         metadata={"help": "The number of gradient accumulation steps."},
-        default=32,
+        default=16,
     )
     gradient_checkpointing: bool = field(
         metadata={"help": "Wether to use gradient checkpointing."},
