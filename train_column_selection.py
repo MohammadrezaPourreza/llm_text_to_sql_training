@@ -97,6 +97,7 @@ save_steps = 50
 logging_steps = 50
 load_best_model_at_end= False
 packing = False
+gradient_checkpointing_kwargs = {"use_reentrant": True},
 save_total_limit=1
 max_seq_length = 2048
 peft_config = LoraConfig(
@@ -133,6 +134,7 @@ training_arguments = TrainingArguments(
     bf16=bf16,
     warmup_ratio=warmup_ratio,
     group_by_length=group_by_length,
+    gradient_checkpointing_kwargs = gradient_checkpointing_kwargs,
     lr_scheduler_type=lr_scheduler_type,
 )
 trainer = SFTTrainer(
