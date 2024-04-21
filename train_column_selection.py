@@ -9,7 +9,6 @@ from trl import SFTTrainer, DataCollatorForCompletionOnlyLM
 from tqdm import tqdm
 from datasets import load_dataset, DatasetDict
 from huggingface_hub import notebook_login
-import gdown
 
 
 def print_tokens_with_ids(txt):
