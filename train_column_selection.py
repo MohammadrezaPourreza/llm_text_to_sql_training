@@ -5,7 +5,6 @@ from transformers import BitsAndBytesConfig, AutoModelForCausalLM, AutoTokenizer
 from peft import LoraConfig, TaskType
 from datasets import load_dataset
 from peft import PeftModel
-from sql_metadata import Parser
 from trl import SFTTrainer, DataCollatorForCompletionOnlyLM
 from tqdm import tqdm
 from datasets import load_dataset, DatasetDict
